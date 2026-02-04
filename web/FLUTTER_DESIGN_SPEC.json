@@ -1,0 +1,1923 @@
+{
+  "appName": "SafeSpace",
+  "version": "1.0.0",
+  "tagline": "Digital Wellness for Families",
+  "description": "A comprehensive digital wellness application designed to help families manage screen time, track habits, monitor mood, and ensure healthy sleep patterns for children",
+  
+  "architecture": {
+    "type": "Flutter Mobile Application",
+    "stateManagement": "Provider Pattern with ChangeNotifier",
+    "navigation": "Named Routes with Material Navigation",
+    "theming": "Material Design 3 with custom colors",
+    "entryPoint": "main.dart",
+    "primaryPlatforms": ["iOS", "Android"],
+    "webSupport": true
+  },
+
+  "theme": {
+    "lightTheme": {
+      "seedColor": "#7C4DFF",
+      "brightness": "light",
+      "useMaterial3": true,
+      "typography": "Google Fonts - Roboto"
+    },
+    "colors": {
+      "primaryOrange": {
+        "hex": "#F5A962",
+        "rgb": "245, 169, 98",
+        "usage": "Screen time related UI, warnings"
+      },
+      "primaryPurple": {
+        "hex": "#CDB4DB",
+        "rgb": "205, 180, 219",
+        "usage": "Primary accent color, headers, selected states"
+      },
+      "primaryYellow": {
+        "hex": "#FFF3CD",
+        "rgb": "255, 243, 205",
+        "usage": "Sleep score cards, warning backgrounds"
+      },
+      "primaryGreen": {
+        "hex": "#D4EDDA",
+        "rgb": "212, 237, 218",
+        "usage": "Mood summary, positive feedback"
+      },
+      "accentBlue": {
+        "hex": "#6C9BCF",
+        "rgb": "108, 155, 207",
+        "usage": "Charts, data visualization, accent elements"
+      },
+      "warningRed": {
+        "hex": "#E57373",
+        "rgb": "229, 115, 115",
+        "usage": "Alerts, negative indicators"
+      },
+      "successGreen": {
+        "hex": "#81C784",
+        "rgb": "129, 199, 132",
+        "usage": "Success messages, completed goals"
+      },
+      "deepPurple": "#7C4DFF",
+      "darkText": "#000000",
+      "mediumText": "#333333",
+      "lightText": "#666666",
+      "greyLight": "#CCCCCC",
+      "greyMedium": "#999999",
+      "greyDark": "#666666",
+      "white": "#FFFFFF",
+      "background": "#F8F8F8"
+    },
+    "typography": {
+      "headlineLarge": {
+        "fontSize": 32,
+        "fontWeight": 700,
+        "fontFamily": "Roboto"
+      },
+      "headlineMedium": {
+        "fontSize": 28,
+        "fontWeight": 700,
+        "fontFamily": "Roboto"
+      },
+      "titleLarge": {
+        "fontSize": 22,
+        "fontWeight": 700,
+        "fontFamily": "Roboto"
+      },
+      "titleMedium": {
+        "fontSize": 18,
+        "fontWeight": 600,
+        "fontFamily": "Roboto"
+      },
+      "bodyLarge": {
+        "fontSize": 16,
+        "fontWeight": 400,
+        "fontFamily": "Roboto"
+      },
+      "bodyMedium": {
+        "fontSize": 14,
+        "fontWeight": 400,
+        "fontFamily": "Roboto"
+      },
+      "bodySmall": {
+        "fontSize": 12,
+        "fontWeight": 400,
+        "fontFamily": "Roboto"
+      }
+    },
+    "spacing": {
+      "extraSmall": 4,
+      "small": 8,
+      "medium": 12,
+      "large": 16,
+      "extraLarge": 20,
+      "huge": 24,
+      "massive": 48,
+      "extreme": 60
+    },
+    "borderRadius": {
+      "small": 8,
+      "medium": 12,
+      "large": 16,
+      "extraLarge": 20,
+      "circular": 28
+    },
+    "elevation": {
+      "card": 2,
+      "dialog": 24,
+      "fab": 6
+    }
+  },
+
+  "userProvider": {
+    "name": "UserProvider",
+    "type": "ChangeNotifier",
+    "properties": [
+      {
+        "name": "_isParent",
+        "type": "bool",
+        "default": true,
+        "description": "Determines if logged-in user is parent or child"
+      },
+      {
+        "name": "_childName",
+        "type": "String",
+        "default": "Aarav",
+        "description": "Name of the child being monitored"
+      }
+    ],
+    "methods": [
+      {
+        "name": "setUserType",
+        "parameter": "bool isParent",
+        "description": "Sets whether the user is a parent or child"
+      },
+      {
+        "name": "setChildName",
+        "parameter": "String name",
+        "description": "Sets the child's name for personalization"
+      }
+    ]
+  },
+
+  "routing": {
+    "routes": [
+      {
+        "path": "/login",
+        "widget": "LoginScreen",
+        "description": "Initial login screen with parent/child toggle"
+      },
+      {
+        "path": "/parent",
+        "widget": "ParentDashboard",
+        "description": "Parent's main dashboard"
+      },
+      {
+        "path": "/child",
+        "widget": "ChildDashboard",
+        "description": "Child's main dashboard"
+      }
+    ],
+    "navigationPattern": "Named Routes with pushReplacementNamed for auth flow"
+  },
+
+  "screens": {
+    "loginScreen": {
+      "name": "LoginScreen",
+      "type": "StatefulWidget",
+      "purpose": "User authentication entry point",
+      "layout": "Column with vertical scrolling",
+      "backgroundColor": "#FFFFFF",
+      "components": [
+        {
+          "name": "Logo",
+          "type": "Icon",
+          "icon": "Icons.shield_rounded",
+          "size": 80,
+          "color": "#7C4DFF",
+          "spacing": {
+            "top": 60,
+            "bottom": 16
+          }
+        },
+        {
+          "name": "App Title",
+          "type": "Text",
+          "text": "SafeSpace",
+          "style": "headlineLarge",
+          "color": "#7C4DFF",
+          "alignment": "center",
+          "fontWeight": 700
+        },
+        {
+          "name": "Tagline",
+          "type": "Text",
+          "text": "Digital Wellness for Families",
+          "style": "bodyLarge",
+          "color": "#999999",
+          "alignment": "center",
+          "spacing": {
+            "bottom": 48
+          }
+        },
+        {
+          "name": "User Type Toggle",
+          "type": "Custom Container",
+          "layout": "Row with 2 equal segments",
+          "backgroundColor": "#F0F0F0",
+          "borderRadius": 12,
+          "options": [
+            {
+              "label": "Parent",
+              "isDefault": true,
+              "selectedBackgroundColor": "#7C4DFF",
+              "selectedTextColor": "#FFFFFF",
+              "unselectedTextColor": "#999999"
+            },
+            {
+              "label": "Child",
+              "selectedBackgroundColor": "#7C4DFF",
+              "selectedTextColor": "#FFFFFF",
+              "unselectedTextColor": "#999999"
+            }
+          ],
+          "spacing": {
+            "bottom": 32
+          }
+        },
+        {
+          "name": "Email TextField",
+          "type": "TextField",
+          "label": "Email",
+          "prefixIcon": "Icons.email_outlined",
+          "borderRadius": 12,
+          "backgroundColor": "#FAFAFA",
+          "spacing": {
+            "bottom": 16
+          }
+        },
+        {
+          "name": "Password TextField",
+          "type": "TextField",
+          "label": "Password",
+          "prefixIcon": "Icons.lock_outline",
+          "obscureText": true,
+          "borderRadius": 12,
+          "backgroundColor": "#FAFAFA",
+          "spacing": {
+            "bottom": 24
+          }
+        },
+        {
+          "name": "Sign In Button",
+          "type": "ElevatedButton",
+          "text": "Sign In",
+          "backgroundColor": "#7C4DFF",
+          "textColor": "#FFFFFF",
+          "padding": {
+            "vertical": 16
+          },
+          "borderRadius": 12,
+          "fontSize": 16,
+          "fontWeight": 600,
+          "spacing": {
+            "bottom": 16
+          }
+        },
+        {
+          "name": "Sign Up Link",
+          "type": "TextButton",
+          "text": "Create an account",
+          "textColor": "#7C4DFF"
+        }
+      ]
+    },
+
+    "parentDashboard": {
+      "name": "ParentDashboard",
+      "type": "StatefulWidget",
+      "purpose": "Main dashboard for parents to monitor child's digital wellness",
+      "layout": "Scaffold with BottomNavigationBar",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "SafeSpace",
+        "leadingIcon": "Icons.menu",
+        "actions": [
+          {
+            "icon": "Icons.notifications_outlined",
+            "action": "open notifications"
+          }
+        ],
+        "showOnHomeTabOnly": true
+      },
+      "navigation": {
+        "type": "BottomNavigationBar",
+        "tabs": [
+          {
+            "label": "Home",
+            "icon": "Icons.home_outlined",
+            "activeIcon": "Icons.home"
+          },
+          {
+            "label": "Reports",
+            "icon": "Icons.bar_chart_outlined",
+            "activeIcon": "Icons.bar_chart"
+          },
+          {
+            "label": "Settings",
+            "icon": "Icons.settings_outlined",
+            "activeIcon": "Icons.settings"
+          }
+        ]
+      },
+      "homeContent": [
+        {
+          "name": "Excessive Screen Time Card",
+          "type": "Card",
+          "backgroundColor": "#F5A962",
+          "opacity": 0.3,
+          "layout": "Row with icon and text",
+          "content": {
+            "title": "Excessive Screen Time",
+            "subtitle": "2 long sessions today",
+            "details": [
+              "Instagram: 45 min",
+              "TikTok: 32 min"
+            ],
+            "emoji": "⚠️",
+            "emojiSize": 48,
+            "actionButton": {
+              "label": "VIEW DETAILS",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#000000",
+              "navigation": "ScreenTimeDetails()"
+            }
+          }
+        },
+        {
+          "name": "Daily App Usage Card",
+          "type": "Card",
+          "backgroundColor": "#CDB4DB",
+          "opacity": 0.5,
+          "layout": "Row with icon and text",
+          "content": {
+            "title": "Daily App Usage",
+            "details": [
+              "Social Media: 2h 45m",
+              "Games: 1h 15m",
+              "Educational: 30m"
+            ],
+            "iconBox": {
+              "size": 60,
+              "backgroundColor": "#E3F2FD",
+              "borderRadius": 8,
+              "icon": "Icons.smartphone",
+              "iconSize": 32
+            },
+            "actionButton": {
+              "label": "VIEW BREAKDOWN",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#000000",
+              "navigation": "AppUsageReport()"
+            }
+          }
+        },
+        {
+          "name": "Sleep Score Card",
+          "type": "Card",
+          "backgroundColor": "#FFF3CD",
+          "layout": "Row with circular progress indicator",
+          "content": {
+            "title": "Sleep Score",
+            "details": [
+              "6.5 hours - Below target",
+              "Last phone use: 11:45 PM"
+            ],
+            "circularProgress": {
+              "value": 0.65,
+              "size": 50,
+              "percentage": "65%",
+              "percentageStyle": {
+                "fontSize": 24,
+                "fontWeight": 700,
+                "color": "#7C4DFF"
+              },
+              "backgroundColor": "#E0E0E0",
+              "valueColor": "#7C4DFF"
+            },
+            "emoji": "😴",
+            "emojiSize": 48,
+            "actionButton": {
+              "label": "VIEW DETAILS",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#000000",
+              "navigation": "SleepTracker()"
+            }
+          }
+        },
+        {
+          "name": "Mood Summary Card",
+          "type": "Card",
+          "backgroundColor": "#D4EDDA",
+          "layout": "Column with emoji grid",
+          "content": {
+            "title": "Mood Summary",
+            "moodGrid": {
+              "layout": "5 columns",
+              "items": [
+                {
+                  "day": "Mon",
+                  "emoji": "😊",
+                  "size": 32
+                },
+                {
+                  "day": "Tue",
+                  "emoji": "😐",
+                  "size": 32
+                },
+                {
+                  "day": "Wed",
+                  "emoji": "😢",
+                  "size": 32
+                },
+                {
+                  "day": "Thu",
+                  "emoji": "😊",
+                  "size": 32
+                },
+                {
+                  "day": "Fri",
+                  "emoji": "😊",
+                  "size": 32
+                }
+              ]
+            },
+            "actionButton": {
+              "label": "VIEW DETAILS",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#000000",
+              "navigation": "MoodView()"
+            }
+          }
+        }
+      ]
+    },
+
+    "childDashboard": {
+      "name": "ChildDashboard",
+      "type": "StatefulWidget",
+      "purpose": "Main dashboard for children with gamified wellness tracking",
+      "layout": "Scaffold with BottomNavigationBar and FAB",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "automaticallyImplyLeading": false,
+        "title": "Custom greeting",
+        "titleLayout": "Column",
+        "titleContent": {
+          "main": "Hey Aarav! 👋",
+          "fontSize": 20,
+          "fontWeight": 700,
+          "subtitle": "You're doing great today! ✨",
+          "subtitleFontSize": 14,
+          "subtitleColor": "#999999"
+        }
+      },
+      "floatingActionButton": {
+        "type": "FloatingActionButton.extended",
+        "label": "Take a Break",
+        "icon": "🧘",
+        "backgroundColor": "#7C4DFF",
+        "action": "showBreakReminder()"
+      },
+      "navigation": {
+        "type": "BottomNavigationBar",
+        "tabs": [
+          {
+            "label": "Dashboard",
+            "icon": "Icons.dashboard_outlined",
+            "activeIcon": "Icons.dashboard"
+          },
+          {
+            "label": "Journal",
+            "icon": "Icons.book_outlined",
+            "activeIcon": "Icons.book",
+            "navigation": "MoodJournal()"
+          },
+          {
+            "label": "Habits",
+            "icon": "Icons.check_circle_outline",
+            "activeIcon": "Icons.check_circle",
+            "navigation": "HabitsTracker()"
+          }
+        ]
+      },
+      "homeContent": [
+        {
+          "name": "Screen Time Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "layout": "Column",
+          "content": {
+            "icon": "Icons.phone_android",
+            "iconColor": "#7C4DFF",
+            "title": "Your Screen Time",
+            "mainMetric": {
+              "value": "2h 45m today",
+              "fontSize": 28,
+              "fontWeight": 700
+            },
+            "details": [
+              {
+                "label": "Daily goal: 3h",
+                "color": "#999999"
+              },
+              {
+                "label": "15 minutes left",
+                "color": "#999999"
+              }
+            ],
+            "progressBar": {
+              "value": 0.92,
+              "backgroundColor": "#EEEEEE",
+              "valueColor": "#4CAF50",
+              "height": 12,
+              "borderRadius": 8
+            },
+            "feedback": {
+              "text": "You're doing great! 🎯",
+              "color": "#4CAF50",
+              "fontWeight": 500
+            }
+          }
+        },
+        {
+          "name": "Quick Mood Check Card",
+          "type": "Card",
+          "backgroundColor": "#F3E5F5",
+          "layout": "Column",
+          "content": {
+            "title": "Quick Mood Check",
+            "subtitle": "How are you feeling today?",
+            "moodSelector": {
+              "layout": "5 columns",
+              "moodOptions": ["😢", "😟", "😐", "😊", "😄"],
+              "selectedStyle": {
+                "backgroundColor": "#7C4DFF",
+                "opacity": 0.2,
+                "borderColor": "#7C4DFF",
+                "borderWidth": 2,
+                "borderRadius": 12
+              }
+            },
+            "addNoteButton": {
+              "icon": "Icons.add",
+              "label": "ADD NOTE",
+              "textColor": "#7C4DFF",
+              "navigation": "MoodJournal()"
+            }
+          }
+        },
+        {
+          "name": "Today's Habits Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "layout": "Column",
+          "content": {
+            "icon": "Icons.check_circle",
+            "iconColor": "#4CAF50",
+            "title": "Today's Habits",
+            "habits": [
+              {
+                "label": "💧 Water",
+                "progress": "6/8 glasses",
+                "value": 0.75,
+                "completed": true,
+                "progressColor": "#4CAF50"
+              },
+              {
+                "label": "☀️ Outdoor",
+                "progress": "15/30 min",
+                "value": 0.5,
+                "completed": false,
+                "progressColor": "#FF9800"
+              },
+              {
+                "label": "🏃 Exercise",
+                "progress": "0/20 min",
+                "value": 0.0,
+                "completed": false,
+                "progressColor": "#FF9800"
+              }
+            ],
+            "viewAllButton": {
+              "text": "SEE ALL →",
+              "textColor": "#7C4DFF",
+              "alignment": "right",
+              "navigation": "HabitsTracker()"
+            }
+          }
+        }
+      ]
+    },
+
+    "moodJournal": {
+      "name": "MoodJournal",
+      "type": "StatefulWidget",
+      "purpose": "Private journal for child to track emotions daily",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "Your Journal",
+        "icon": "Icons.lock",
+        "subtitle": "Private - Only you can see this"
+      },
+      "sections": [
+        {
+          "name": "New Entry Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "borderRadius": 16,
+          "borderColor": "#CCCCCC",
+          "borderWidth": 1,
+          "content": {
+            "title": "How are you feeling right now?",
+            "moodSelector": {
+              "moodOptions": ["😢", "😟", "😐", "😊", "😄"],
+              "type": "ChoiceChip",
+              "selectedColor": "#7C4DFF",
+              "selectedOpacity": 0.2
+            },
+            "noteField": {
+              "label": "Write about your day (optional):",
+              "hintText": "What's on your mind?",
+              "maxLines": 4,
+              "borderRadius": 12,
+              "backgroundColor": "#FAFAFA"
+            },
+            "shareCheckbox": {
+              "label": "Share this note with parents",
+              "default": false
+            },
+            "saveButton": {
+              "label": "SAVE ENTRY",
+              "backgroundColor": "#7C4DFF",
+              "textColor": "#FFFFFF",
+              "padding": {
+                "vertical": 14
+              }
+            }
+          }
+        },
+        {
+          "name": "Past Entries Section",
+          "type": "List of Entry Cards",
+          "title": "Past Entries",
+          "entryCard": {
+            "backgroundColor": "#FFFFFF",
+            "content": {
+              "date": "Feb 4",
+              "mood": "😊",
+              "moodLabel": "Happy",
+              "time": "8:45 PM",
+              "note": "Had fun at football practice today!",
+              "privacy": "Private | Shared with parents",
+              "privacyIcon": "Icons.lock | Icons.visibility",
+              "actions": [
+                {
+                  "label": "Edit",
+                  "type": "TextButton"
+                },
+                {
+                  "label": "Delete",
+                  "type": "TextButton",
+                  "color": "#FF0000"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "floatingActionButton": {
+        "icon": "Icons.add",
+        "action": "scrollToTop()"
+      }
+    },
+
+    "habitsTracker": {
+      "name": "HabitsTracker",
+      "type": "StatefulWidget",
+      "purpose": "Track daily healthy habits with visual progress indicators",
+      "layout": "Scaffold with custom top/bottom sections",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "Daily Goals 🎯"
+      },
+      "sections": [
+        {
+          "name": "Water Intake Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": "💧 Water Intake",
+            "subtitle": "Target: 8 glasses",
+            "circularProgress": {
+              "value": 0.75,
+              "size": 80,
+              "strokeWidth": 8,
+              "backgroundColor": "#EEEEEE",
+              "valueColor": "#2196F3",
+              "centerText": "75%"
+            },
+            "waterDrops": {
+              "layout": "8 columns",
+              "filled": 6,
+              "icon": "Icons.water_drop | Icons.water_drop_outlined",
+              "filledColor": "#2196F3",
+              "emptyColor": "#DDDDDD",
+              "size": 28
+            },
+            "addButton": {
+              "type": "FloatingActionButton.small",
+              "icon": "Icons.add",
+              "heroTag": "water",
+              "action": "increment water counter"
+            }
+          }
+        },
+        {
+          "name": "Outdoor Time Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": "☀️ Outdoor Time",
+            "subtitle": "Target: 30 minutes",
+            "circularProgress": {
+              "value": 0.5,
+              "size": 80,
+              "strokeWidth": 8,
+              "backgroundColor": "#EEEEEE",
+              "valueColor": "#FF9800",
+              "centerText": "50%"
+            },
+            "metric": "15/30 min",
+            "startTimerButton": {
+              "icon": "Icons.play_arrow",
+              "label": "START TIMER",
+              "action": "timer starts"
+            },
+            "tip": "Try going for a walk! 🚶"
+          }
+        },
+        {
+          "name": "Exercise Card",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": "🏃 Exercise",
+            "subtitle": "Target: 20 minutes",
+            "circularProgress": {
+              "value": 0.0,
+              "size": 80,
+              "strokeWidth": 8,
+              "backgroundColor": "#EEEEEE",
+              "valueColor": "#4CAF50",
+              "centerText": "0%"
+            },
+            "metric": "0/20 min",
+            "logActivityButton": {
+              "icon": "Icons.add",
+              "label": "LOG ACTIVITY",
+              "action": "show activity dialog"
+            },
+            "ideas": "Ideas: Run, dance, play sports"
+          }
+        },
+        {
+          "name": "Streak Indicator",
+          "type": "Container",
+          "backgroundColor": "#E8F5E9",
+          "content": {
+            "emoji": "🔥",
+            "text": "This Week's Streak: 4 days",
+            "fontSize": 16,
+            "fontWeight": 700
+          }
+        },
+        {
+          "name": "Encouragement Banner",
+          "type": "Container",
+          "backgroundColor": "#C8E6C9",
+          "content": {
+            "text": "Keep it up! You're awesome!",
+            "alignment": "center",
+            "fontWeight": 500
+          }
+        }
+      ]
+    },
+
+    "breakReminder": {
+      "name": "BreakReminderDialog",
+      "type": "Dialog",
+      "purpose": "Encourage child to take healthy breaks from screen",
+      "layout": "Centered dialog with column layout",
+      "width": 280,
+      "borderRadius": 28,
+      "content": {
+        "emoji": {
+          "text": "🧘",
+          "size": 64
+        },
+        "title": {
+          "text": "Time for a Break!",
+          "fontSize": 22,
+          "fontWeight": 700
+        },
+        "description": {
+          "text": "You've been on your phone for 45 minutes.",
+          "alignment": "center",
+          "color": "#999999"
+        },
+        "activityButtons": [
+          {
+            "label": "5-Minute Breathing",
+            "backgroundColor": "#B2DFDB",
+            "textColor": "#000000",
+            "borderRadius": 12,
+            "action": "close dialog and show activity"
+          },
+          {
+            "label": "Stretch Your Eyes",
+            "backgroundColor": "#BBDEFB",
+            "textColor": "#000000",
+            "borderRadius": 12,
+            "action": "close dialog and show activity"
+          },
+          {
+            "label": "Walk Around",
+            "backgroundColor": "#C8E6C9",
+            "textColor": "#000000",
+            "borderRadius": 12,
+            "action": "close dialog and show activity"
+          }
+        ],
+        "snoozeButton": {
+          "label": "Snooze (15 min)",
+          "type": "TextButton",
+          "color": "#999999"
+        },
+        "motivationalText": {
+          "text": "Taking breaks helps your brain and body feel better! 💚",
+          "fontSize": 12,
+          "color": "#999999",
+          "alignment": "center"
+        }
+      }
+    },
+
+    "screenTimeDetails": {
+      "name": "ScreenTimeDetails",
+      "type": "StatelessWidget",
+      "purpose": "Detailed breakdown of screen time sessions",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "Screen Time Sessions"
+      },
+      "sections": [
+        {
+          "name": "Session Cards",
+          "type": "List of session cards",
+          "sessionCard": {
+            "backgroundColor": "#FFFFFF",
+            "content": {
+              "appIcon": {
+                "emoji": "📷 | 🎵 | ▶️",
+                "backgroundColor": "#F3E5F5",
+                "size": 40,
+                "borderRadius": 8,
+                "fontSize": 24
+              },
+              "appName": "Instagram | TikTok | YouTube",
+              "duration": "45mins",
+              "timeRange": "6:30 PM-7:15 PM",
+              "warnings": [
+                {
+                  "icon": "Icons.warning | Icons.check_circle",
+                  "text": "No breaks taken | Took 2 breaks",
+                  "color": "#FF9800 | #4CAF50"
+                }
+              ],
+              "isPositive": false
+            }
+          }
+        },
+        {
+          "name": "Weekly Chart",
+          "type": "BarChart",
+          "library": "fl_chart",
+          "content": {
+            "title": "Weekly Screen Time",
+            "xAxis": ["M", "T", "W", "T", "F", "S", "S"],
+            "maxY": 8,
+            "barColor": "#7C4DFF",
+            "highlightColor": "#7C4DFF",
+            "values": [2, 3, 4, 3.5, 5, 4, 3],
+            "highlightIndex": 4,
+            "gridColor": "#EEEEEE"
+          }
+        }
+      ]
+    },
+
+    "sleepTracker": {
+      "name": "SleepTracker",
+      "type": "StatelessWidget",
+      "purpose": "Monitor sleep patterns and quality",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "Sleep Pattern Tracker"
+      },
+      "sections": [
+        {
+          "name": "Weekly Sleep Summary",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": "This Week's Sleep",
+            "fontSize": 22,
+            "fontWeight": 700,
+            "sleepRows": [
+              {
+                "day": "Monday",
+                "hours": 7.5,
+                "status": "Good",
+                "statusColor": "#8BC34A",
+                "stars": 1,
+                "progressValue": 0.75
+              },
+              {
+                "day": "Tuesday",
+                "hours": 6.2,
+                "status": "Below",
+                "statusColor": "#FF9800",
+                "warning": true,
+                "progressValue": 0.62
+              },
+              {
+                "day": "Wednesday",
+                "hours": 8.0,
+                "status": "Great",
+                "statusColor": "#4CAF50",
+                "stars": 2,
+                "progressValue": 0.8
+              },
+              {
+                "day": "Thursday",
+                "hours": 6.5,
+                "status": "Below",
+                "statusColor": "#FF9800",
+                "warning": true,
+                "progressValue": 0.65
+              },
+              {
+                "day": "Friday",
+                "hours": 5.8,
+                "status": "Poor",
+                "statusColor": "#F44336",
+                "warning": true,
+                "progressValue": 0.58
+              },
+              {
+                "day": "Saturday",
+                "hours": 9.0,
+                "status": "Great",
+                "statusColor": "#4CAF50",
+                "stars": 2,
+                "progressValue": 0.9
+              },
+              {
+                "day": "Sunday",
+                "hours": 7.0,
+                "status": "Good",
+                "statusColor": "#8BC34A",
+                "stars": 1,
+                "progressValue": 0.7
+              }
+            ]
+          }
+        },
+        {
+          "name": "Sleep Score Card",
+          "type": "Card",
+          "backgroundColor": "#F3E5F5",
+          "content": {
+            "title": "Target: 8-10 hours",
+            "fontSize": 20,
+            "fontWeight": 700,
+            "subtitle": "Screen time affects score",
+            "currentScore": "7.1/10",
+            "progressValue": 0.71,
+            "backgroundColor": "#DDDDDD",
+            "valueColor": "#7C4DFF"
+          }
+        }
+      ]
+    },
+
+    "moodView": {
+      "name": "MoodView",
+      "type": "StatefulWidget",
+      "purpose": "Comprehensive mood tracking and visualization for parents",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "Aarav's Mood This Week"
+      },
+      "sections": [
+        {
+          "name": "Mood Calendar",
+          "type": "Card",
+          "backgroundColor": "#FFF3CD",
+          "borderRadius": 8,
+          "content": {
+            "title": "Calendar",
+            "fontSize": 22,
+            "fontWeight": 700,
+            "days": [
+              {
+                "emoji": "😆",
+                "day": "Mon",
+                "mood": "happy"
+              },
+              {
+                "emoji": "😐",
+                "day": "Tues",
+                "mood": "neutral"
+              },
+              {
+                "emoji": "😢",
+                "day": "Wed",
+                "mood": "sad"
+              },
+              {
+                "emoji": "😰",
+                "day": "Thu",
+                "mood": "worried"
+              },
+              {
+                "emoji": "😆",
+                "day": "Fri",
+                "mood": "happy"
+              }
+            ],
+            "selectedDaySize": 40,
+            "unselectedDaySize": 32,
+            "hint": "Tap a day to see more details"
+          }
+        },
+        {
+          "name": "Selected Day Details",
+          "type": "Card",
+          "backgroundColor": "#F3E5F5",
+          "content": {
+            "title": "Selected Day",
+            "fontSize": 22,
+            "fontWeight": 700,
+            "dateInfo": {
+              "date": "Wednesday",
+              "emoji": "😢",
+              "mood": "Sad, Feb 2"
+            },
+            "sharedNote": {
+              "label": "Shared note from Aarav -",
+              "note": "Had a fight with my best friend. Feeling really upset.",
+              "backgroundColor": "#FFE0B2",
+              "borderRadius": 8,
+              "fontStyle": "italic"
+            },
+            "timeLogged": "Time logged: 8:30 PM"
+          }
+        },
+        {
+          "name": "Mood Trend Chart",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "title": "Trend chart",
+            "dateRange": "March 15 - March 21",
+            "chart": {
+              "type": "LineChart",
+              "library": "fl_chart",
+              "minX": 0,
+              "maxX": 6,
+              "minY": 0,
+              "maxY": 4,
+              "leftAxisLabels": ["", "Neutral", "Happy", "Very Happy"],
+              "data": [
+                {
+                  "x": 0,
+                  "y": 1.5
+                },
+                {
+                  "x": 1,
+                  "y": 2
+                },
+                {
+                  "x": 2,
+                  "y": 1.8
+                },
+                {
+                  "x": 3,
+                  "y": 2.5
+                },
+                {
+                  "x": 4,
+                  "y": 2.2
+                },
+                {
+                  "x": 5,
+                  "y": 3
+                },
+                {
+                  "x": 6,
+                  "y": 2.8
+                }
+              ],
+              "lineColor": "#2196F3",
+              "isCurved": true,
+              "gridColor": "#EEEEEE"
+            }
+          }
+        }
+      ]
+    },
+
+    "appUsageReport": {
+      "name": "AppUsageReport",
+      "type": "StatelessWidget",
+      "purpose": "Detailed app usage breakdown with categorization",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "appBar": {
+        "title": "App Usage Report"
+      },
+      "sections": [
+        {
+          "name": "Pie Chart",
+          "type": "Card",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "chart": {
+              "type": "PieChart",
+              "library": "fl_chart",
+              "height": 200,
+              "centerSpaceRadius": 60,
+              "sections": [
+                {
+                  "value": 45,
+                  "color": "#F5A962",
+                  "label": "Social Media"
+                },
+                {
+                  "value": 30,
+                  "color": "#6C9BCF",
+                  "label": "Games"
+                },
+                {
+                  "value": 25,
+                  "color": "#81C784",
+                  "label": "Educational"
+                }
+              ]
+            },
+            "centerText": {
+              "mainValue": "6 h 20 m",
+              "fontSize": 18,
+              "fontWeight": 700,
+              "label": "Total time",
+              "labelFontSize": 12
+            }
+          }
+        },
+        {
+          "name": "Category Cards",
+          "type": "List of category cards",
+          "categoryCard": {
+            "categories": [
+              {
+                "title": "Social Media",
+                "totalTime": "2h 45m",
+                "color": "#F5A962",
+                "icon": "Icons.people",
+                "apps": [
+                  {
+                    "name": "Instagram",
+                    "time": "1h 15m",
+                    "progress": 0.7
+                  },
+                  {
+                    "name": "TikTok",
+                    "time": "1h 00m",
+                    "progress": 0.5
+                  },
+                  {
+                    "name": "Snapchat",
+                    "time": "30m",
+                    "progress": 0.3
+                  }
+                ]
+              },
+              {
+                "title": "Games",
+                "totalTime": "2h 45m",
+                "color": "#6C9BCF",
+                "icon": "Icons.sports_esports",
+                "apps": [
+                  {
+                    "name": "CODM",
+                    "time": "45m",
+                    "progress": 0.6
+                  },
+                  {
+                    "name": "Subway Surf",
+                    "time": "30m",
+                    "progress": 0.4
+                  }
+                ]
+              },
+              {
+                "title": "Educational",
+                "totalTime": "2h 45m",
+                "color": "#81C784",
+                "icon": "Icons.school",
+                "apps": [
+                  {
+                    "name": "Khan academy",
+                    "time": "20m",
+                    "progress": 0.5
+                  },
+                  {
+                    "name": "Duolingo",
+                    "time": "10m",
+                    "progress": 0.25
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    "reportsScreen": {
+      "name": "ReportsScreen",
+      "type": "StatefulWidget",
+      "purpose": "Comprehensive analytics and insights for parents",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#FAFAFA",
+      "header": {
+        "title": "Reports",
+        "fontSize": 24,
+        "fontWeight": 700,
+        "actionButton": "Icons.share_outlined"
+      },
+      "sections": [
+        {
+          "name": "Period Selector",
+          "type": "Dropdown",
+          "options": ["This Week", "Last Week", "This Month", "Last Month"],
+          "default": "This Week",
+          "backgroundColor": "#FFFFFF",
+          "borderRadius": 12,
+          "borderColor": "#CCCCCC"
+        },
+        {
+          "name": "Weekly Summary",
+          "type": "Card",
+          "content": {
+            "title": "Weekly Summary",
+            "icon": "Icons.summarize",
+            "iconColor": "#CDB4DB",
+            "summaryItems": [
+              {
+                "label": "Avg Screen Time",
+                "value": "4h 12m",
+                "icon": "Icons.phone_android",
+                "color": "#FF9800",
+                "change": "-15%",
+                "isPositive": true
+              },
+              {
+                "label": "Avg Sleep",
+                "value": "8h 30m",
+                "icon": "Icons.bedtime",
+                "color": "#4B0082",
+                "change": "+8%",
+                "isPositive": true
+              },
+              {
+                "label": "Habits Done",
+                "value": "85%",
+                "icon": "Icons.check_circle",
+                "color": "#4CAF50",
+                "change": "+12%",
+                "isPositive": true
+              },
+              {
+                "label": "Mood Score",
+                "value": "7.5/10",
+                "icon": "Icons.mood",
+                "color": "#E91E63",
+                "change": "+5%",
+                "isPositive": true
+              }
+            ]
+          }
+        },
+        {
+          "name": "Screen Time Trends",
+          "type": "Card",
+          "content": {
+            "title": "Screen Time Trends",
+            "icon": "Icons.trending_down",
+            "iconColor": "#FF9800",
+            "chart": {
+              "type": "LineChart",
+              "library": "fl_chart",
+              "data": [
+                {
+                  "x": 0,
+                  "y": 5,
+                  "day": "Mon"
+                },
+                {
+                  "x": 1,
+                  "y": 4.5,
+                  "day": "Tue"
+                },
+                {
+                  "x": 2,
+                  "y": 5.2,
+                  "day": "Wed"
+                },
+                {
+                  "x": 3,
+                  "y": 4,
+                  "day": "Thu"
+                },
+                {
+                  "x": 4,
+                  "y": 3.8,
+                  "day": "Fri"
+                },
+                {
+                  "x": 5,
+                  "y": 4.2,
+                  "day": "Sat"
+                },
+                {
+                  "x": 6,
+                  "y": 3.5,
+                  "day": "Sun"
+                }
+              ],
+              "lineColor": "#FF9800",
+              "isCurved": true,
+              "hasArea": true,
+              "areaColor": "#FF9800",
+              "areaOpacity": 0.2
+            },
+            "insight": {
+              "icon": "Icons.thumb_up",
+              "text": "Great progress! Screen time decreased by 15% this week.",
+              "backgroundColor": "#E8F5E9",
+              "textColor": "#4CAF50"
+            }
+          }
+        },
+        {
+          "name": "App Usage Breakdown",
+          "type": "Card",
+          "content": {
+            "title": "App Usage Breakdown",
+            "icon": "Icons.apps",
+            "iconColor": "#CDB4DB",
+            "apps": [
+              {
+                "name": "YouTube",
+                "time": "8h 30m",
+                "progress": 0.35,
+                "color": "#F44336"
+              },
+              {
+                "name": "TikTok",
+                "time": "5h 45m",
+                "progress": 0.24,
+                "color": "#000000"
+              },
+              {
+                "name": "Instagram",
+                "time": "4h 20m",
+                "progress": 0.18,
+                "color": "#9C27B0"
+              },
+              {
+                "name": "Games",
+                "time": "3h 15m",
+                "progress": 0.13,
+                "color": "#2196F3"
+              },
+              {
+                "name": "Educational",
+                "time": "2h 30m",
+                "progress": 0.1,
+                "color": "#4CAF50"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Sleep Quality",
+          "type": "Card",
+          "content": {
+            "title": "Sleep Quality",
+            "icon": "Icons.bedtime",
+            "iconColor": "#4B0082",
+            "metrics": [
+              {
+                "label": "Avg Sleep Duration",
+                "value": "8h 30m"
+              },
+              {
+                "label": "Avg Bedtime",
+                "value": "9:30 PM"
+              }
+            ],
+            "insight": {
+              "icon": "Icons.star",
+              "text": "Sleep schedule is consistent. Keep it up!",
+              "backgroundColor": "#E3F2FD",
+              "textColor": "#1565C0"
+            }
+          }
+        },
+        {
+          "name": "Mood Trends",
+          "type": "Card",
+          "content": {
+            "title": "Mood Trends",
+            "icon": "Icons.mood",
+            "iconColor": "#E91E63",
+            "moodStats": [
+              {
+                "emoji": "😊",
+                "label": "Happy",
+                "percent": "45%"
+              },
+              {
+                "emoji": "😐",
+                "label": "Neutral",
+                "percent": "30%"
+              },
+              {
+                "emoji": "😢",
+                "label": "Sad",
+                "percent": "15%"
+              },
+              {
+                "emoji": "😤",
+                "label": "Angry",
+                "percent": "10%"
+              }
+            ],
+            "insight": {
+              "icon": "Icons.lightbulb",
+              "text": "Mood improved on days with less screen time.",
+              "backgroundColor": "#FCE4EC",
+              "textColor": "#C2185B"
+            }
+          }
+        }
+      ]
+    },
+
+    "settingsScreen": {
+      "name": "SettingsScreen",
+      "type": "StatefulWidget",
+      "purpose": "Configuration for parental controls and app preferences",
+      "layout": "Scaffold with SingleChildScrollView",
+      "backgroundColor": "#F5F5F5",
+      "sections": [
+        {
+          "name": "Profile Section",
+          "type": "Container",
+          "backgroundColor": "#FFFFFF",
+          "content": {
+            "avatar": {
+              "radius": 30,
+              "backgroundColor": "#CDB4DB",
+              "opacity": 0.2,
+              "icon": "Icons.person",
+              "iconSize": 30,
+              "iconColor": "#CDB4DB"
+            },
+            "userInfo": {
+              "name": "Sarah Johnson",
+              "fontSize": 18,
+              "fontWeight": 700,
+              "email": "sarah.johnson@email.com",
+              "emailColor": "#999999",
+              "emailFontSize": 14
+            },
+            "editButton": "Icons.edit_outlined"
+          }
+        },
+        {
+          "name": "Screen Time Limits",
+          "type": "SectionGroup",
+          "sectionTitle": "Screen Time Limits",
+          "items": [
+            {
+              "type": "Slider",
+              "label": "Daily Screen Time Limit",
+              "min": 1,
+              "max": 8,
+              "divisions": 14,
+              "color": "#CDB4DB",
+              "currentValue": "4h 0m"
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.nightlight_round",
+              "title": "Bedtime",
+              "subtitle": "9:00 PM - 7:00 AM",
+              "hasChevron": true
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.block",
+              "title": "Blocked Apps",
+              "subtitle": "3 apps blocked",
+              "hasChevron": true
+            }
+          ]
+        },
+        {
+          "name": "Notifications",
+          "type": "SectionGroup",
+          "sectionTitle": "Notifications",
+          "items": [
+            {
+              "type": "Switch",
+              "icon": "Icons.notifications",
+              "title": "Push Notifications",
+              "subtitle": "Receive alerts on your device",
+              "default": true
+            },
+            {
+              "type": "Switch",
+              "icon": "Icons.summarize",
+              "title": "Daily Reports",
+              "subtitle": "Get daily activity summaries",
+              "default": true
+            },
+            {
+              "type": "Switch",
+              "icon": "Icons.timer",
+              "title": "Screen Time Alerts",
+              "subtitle": "Alert when limit is reached",
+              "default": true
+            },
+            {
+              "type": "Switch",
+              "icon": "Icons.bedtime",
+              "title": "Bedtime Reminders",
+              "subtitle": "Remind child before bedtime",
+              "default": true
+            }
+          ]
+        },
+        {
+          "name": "Child Accounts",
+          "type": "SectionGroup",
+          "sectionTitle": "Child Accounts",
+          "items": [
+            {
+              "type": "ChildTile",
+              "name": "Alex",
+              "age": "12 years old",
+              "isActive": true,
+              "avatar": {
+                "backgroundColor": "#BBDEFB",
+                "textColor": "#1565C0",
+                "letter": "A"
+              }
+            },
+            {
+              "type": "AddChildButton",
+              "label": "Add Child Account",
+              "textColor": "#CDB4DB"
+            }
+          ]
+        },
+        {
+          "name": "App Settings",
+          "type": "SectionGroup",
+          "sectionTitle": "App Settings",
+          "items": [
+            {
+              "type": "Tile",
+              "icon": "Icons.palette",
+              "title": "Appearance",
+              "subtitle": "Light mode",
+              "hasChevron": true
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.language",
+              "title": "Language",
+              "subtitle": "English",
+              "hasChevron": true
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.security",
+              "title": "Privacy & Security",
+              "subtitle": "Manage your data",
+              "hasChevron": true
+            }
+          ]
+        },
+        {
+          "name": "Support",
+          "type": "SectionGroup",
+          "sectionTitle": "Support",
+          "items": [
+            {
+              "type": "Tile",
+              "icon": "Icons.help_outline",
+              "title": "Help Center",
+              "subtitle": "FAQs and guides",
+              "hasChevron": true
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.feedback_outlined",
+              "title": "Send Feedback",
+              "subtitle": "Help us improve",
+              "hasChevron": true
+            },
+            {
+              "type": "Tile",
+              "icon": "Icons.info_outline",
+              "title": "About",
+              "subtitle": "Version 1.0.0",
+              "hasChevron": true
+            },
+            {
+              "type": "SignOutButton",
+              "icon": "Icons.logout",
+              "title": "Sign Out",
+              "textColor": "#FF5252"
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  "dataModels": {
+    "appUsageData": {
+      "properties": [
+        {
+          "name": "appName",
+          "type": "String",
+          "example": "Instagram"
+        },
+        {
+          "name": "iconPath",
+          "type": "String",
+          "example": "📷"
+        },
+        {
+          "name": "minutes",
+          "type": "int",
+          "example": 45
+        },
+        {
+          "name": "timeRange",
+          "type": "String",
+          "example": "6:30 PM-7:15 PM"
+        },
+        {
+          "name": "warnings",
+          "type": "List<String>",
+          "example": ["No breaks taken", "Continuous scrolling"]
+        },
+        {
+          "name": "isPositive",
+          "type": "bool",
+          "example": false
+        }
+      ]
+    },
+    "sleepData": {
+      "properties": [
+        {
+          "name": "day",
+          "type": "String",
+          "example": "Monday"
+        },
+        {
+          "name": "hours",
+          "type": "double",
+          "example": 7.5
+        },
+        {
+          "name": "status",
+          "type": "String",
+          "enum": ["Great", "Good", "Below", "Poor"],
+          "example": "Good"
+        },
+        {
+          "name": "note",
+          "type": "String?",
+          "example": "Good night's sleep"
+        }
+      ]
+    },
+    "moodEntry": {
+      "properties": [
+        {
+          "name": "date",
+          "type": "DateTime",
+          "example": "2024-02-04"
+        },
+        {
+          "name": "mood",
+          "type": "String",
+          "enum": ["happy", "excited", "neutral", "sad", "worried"],
+          "example": "happy"
+        },
+        {
+          "name": "note",
+          "type": "String?",
+          "example": "Had fun at football practice"
+        },
+        {
+          "name": "isShared",
+          "type": "bool",
+          "example": false
+        },
+        {
+          "name": "time",
+          "type": "String",
+          "example": "8:45 PM"
+        },
+        {
+          "name": "moodEmoji",
+          "type": "String (computed)",
+          "enum": ["😊", "😄", "😐", "😢", "😟"],
+          "example": "😊"
+        }
+      ]
+    },
+    "habitData": {
+      "properties": [
+        {
+          "name": "name",
+          "type": "String",
+          "example": "Water Intake"
+        },
+        {
+          "name": "icon",
+          "type": "String",
+          "example": "💧"
+        },
+        {
+          "name": "current",
+          "type": "int",
+          "example": 6
+        },
+        {
+          "name": "target",
+          "type": "int",
+          "example": 8
+        },
+        {
+          "name": "unit",
+          "type": "String",
+          "example": "glasses"
+        },
+        {
+          "name": "progress",
+          "type": "double (computed)",
+          "example": 0.75
+        }
+      ]
+    }
+  },
+
+  "responsiveDesign": {
+    "breakpoints": {
+      "mobile": "width < 600",
+      "tablet": "600 <= width < 1200",
+      "desktop": "width >= 1200"
+    },
+    "adaptations": {
+      "mobile": {
+        "cardLayout": "Single column full width",
+        "navigationPattern": "BottomNavigationBar",
+        "fontSize": "Standard (14-22px)",
+        "padding": "16-24px"
+      },
+      "tablet": {
+        "cardLayout": "2-column grid with wrapping",
+        "navigationPattern": "BottomNavigationBar or SideDrawer",
+        "fontSize": "Slightly larger (16-24px)",
+        "padding": "20-28px"
+      },
+      "desktop": {
+        "cardLayout": "3-column grid or horizontal scroll",
+        "navigationPattern": "Sidebar navigation",
+        "fontSize": "Larger (18-28px)",
+        "padding": "24-32px"
+      }
+    }
+  },
+
+  "navigationFlow": {
+    "initialRoute": "/login",
+    "userJourney": {
+      "parent": {
+        "loginScreen": {
+          "selectType": "Parent",
+          "enterCredentials": "Email + Password",
+          "navigate": "/parent"
+        },
+        "parentDashboard": {
+          "homeTab": {
+            "screenTimeCard": "→ ScreenTimeDetails",
+            "appUsageCard": "→ AppUsageReport",
+            "sleepScoreCard": "→ SleepTracker",
+            "moodSummaryCard": "→ MoodView"
+          },
+          "reportsTab": "→ ReportsScreen",
+          "settingsTab": "→ SettingsScreen"
+        }
+      },
+      "child": {
+        "loginScreen": {
+          "selectType": "Child",
+          "enterCredentials": "Email + Password",
+          "navigate": "/child"
+        },
+        "childDashboard": {
+          "dashboardTab": {
+            "floatingActionButton": "→ BreakReminderDialog"
+          },
+          "journalTab": "→ MoodJournal",
+          "habitsTab": "→ HabitsTracker"
+        }
+      }
+    }
+  },
+
+  "designPatterns": {
+    "cardBasedLayout": "All major sections are presented as cards with consistent styling",
+    "colorCoding": "Different sections have distinct background colors for quick scanning",
+    "progressIndicators": "Circular progress for main metrics, linear progress for details",
+    "gamification": "Emojis, streaks, and encouragement messages for children",
+    "parentPerspective": "Summary cards with action buttons leading to detailed views",
+    "childPerspective": "Interactive, emoji-rich interface with immediate feedback",
+    "dataVisualization": "fl_chart library for bar charts, line charts, and pie charts",
+    "consistency": "Consistent rounded corners (8-28px), spacing (8-24px), and color usage"
+  },
+
+  "keyFeatures": [
+    "Dual user interface (parent and child)",
+    "Screen time monitoring and analytics",
+    "Sleep pattern tracking with quality scoring",
+    "Mood journal with privacy controls",
+    "Daily habit tracking with visual progress",
+    "Break reminders with suggested activities",
+    "Comprehensive reporting and trend analysis",
+    "Customizable screen time limits",
+    "Multi-child account management",
+    "Push notifications and alerts",
+    "Child account management by parents"
+  ],
+
+  "dependencies": {
+    "flutter": "latest",
+    "provider": "state management",
+    "google_fonts": "typography",
+    "fl_chart": "data visualization"
+  },
+
+  "buildInstructions": {
+    "development": "flutter pub get && flutter run",
+    "production": "flutter build apk && flutter build ios"
+  }
+}
